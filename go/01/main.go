@@ -7,8 +7,7 @@ import (
 	"strconv"
 )
 
-// Solution1 ...
-func Solution1(input []int, sum int) int {
+func solution1(input []int, sum int) int {
 	compliments := make(map[int]int)
 	for _, val := range input {
 		compliment := sum - val
@@ -20,8 +19,7 @@ func Solution1(input []int, sum int) int {
 	panic("nope!")
 }
 
-// Solution2 ...
-func Solution2(input []int, sum int) int {
+func solution2(input []int, sum int) int {
 	for i, vali := range input {
 		compliments := make(map[int]int)
 		for j, valj := range input {
@@ -47,8 +45,8 @@ func main() {
 		input = append(input, intFromString(scanner.Text()))
 	}
 
-	fmt.Println(Solution1(input, 2020))
-	fmt.Println(Solution2(input, 2020))
+	fmt.Println(solution1(input, 2020))
+	fmt.Println(solution2(input, 2020))
 }
 
 func intFromString(s string) int {
