@@ -13,6 +13,7 @@ fn solution_1(input: &[i32], sum: i32) -> Result<i32, &str> {
         }
         compliments.insert(*val, *val);
     }
+
     Err("couldn't find a solution")
 }
 
@@ -31,7 +32,7 @@ fn solution_2(input: &[i32], sum: i32) -> Result<i32, &str> {
             compliments.insert(*valj, *valj);
         }
     }
-
+    
     Err("couldn't find a solution")
 }
 
