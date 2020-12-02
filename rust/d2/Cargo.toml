@@ -1,5 +1,5 @@
 [package]
-name = "rust"
+name = "d2"
 version = "0.1.0"
 authors = ["Umran Hussein <umran.hussein@gmail.com>"]
 edition = "2018"
@@ -9,5 +9,5 @@ edition = "2018"
 [dependencies]
 
 [[bin]]
-name = "rust"
+name = "d2"
 path = "main.rs"
