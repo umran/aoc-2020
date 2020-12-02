@@ -11,8 +11,8 @@ fn parse_line(input: &str) -> Result<(usize, usize, char, Vec<char>), &str> {
     let character_chars: Vec<char> = rnge_char.get(1).ok_or("invalid index")?.chars().collect();
 
     let result = (
-        rnge.get(0).ok_or("invalid index")?.parse::<usize>().unwrap(),
-        rnge.get(1).ok_or("invalid index")?.parse::<usize>().unwrap(),
+        parse_usize(rnge.get(0).ok_or("invalid index")?)?,
+        parse_usize(rnge.get(1).ok_or("invalid index")?)?,
         *character_chars.get(0).ok_or("invalid index")?,
         pw
     );
@@ -58,6 +58,13 @@ fn solution_2(input: &[String]) -> Result<i32, &str> {
 fn read_lines<P: AsRef<Path>>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>> {
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
+}
+
+fn parse_usize(s: &str) -> Result<usize, &str> {
+    match s.parse::<usize>() {
+        Ok(as_usize) => Ok(as_usize),
+        _ => Err("unable to parse usize")
+    }
 }
 
 fn main() {
