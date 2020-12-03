@@ -23,11 +23,11 @@ func treesForSlope(input []string, dx, dy int) int {
 	trees := 0
 	x := 0
 	for y := 0; y < len(input); y += dy {
-		row := input[y]
-		if []rune(row)[x] == []rune("#")[0] {
+		row := []rune(input[y])
+		if row[x] == []rune("#")[0] {
 			trees++
 		}
-		x = (x + dx) % len([]rune(row))
+		x = (x + dx) % len(row)
 	}
 	return trees
 }
