@@ -69,7 +69,7 @@ fn parse_usize(s: &str) -> Result<usize, &str> {
 
 fn main() {
     let input: Vec<String> = read_lines("./input.txt").unwrap().map(|line| match line {
-        Ok(text) => text.parse::<String>().unwrap(),
+        Ok(text) => text,
         _ => panic!("failed to read line")
     }).collect();
 
