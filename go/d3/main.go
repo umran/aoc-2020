@@ -7,21 +7,24 @@ import (
 )
 
 func solution1(input []string, slope []int) int {
-	return treesForSlope(input, slope[0], slope[1])
+	return countTrees(input, slope)
 }
 
 func solution2(input []string, slopes [][]int) int {
 	answer := 1
 	for _, slope := range slopes {
-		answer = answer * treesForSlope(input, slope[0], slope[1])
+		answer = answer * countTrees(input, slope)
 	}
 
 	return answer
 }
 
-func treesForSlope(input []string, dx, dy int) int {
+func countTrees(input []string, slope []int) int {
 	trees := 0
 	x := 0
+	dx := slope[0]
+	dy := slope[1]
+
 	for y := 0; y < len(input); y += dy {
 		row := []rune(input[y])
 		if row[x] == []rune("#")[0] {
