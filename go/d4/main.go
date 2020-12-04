@@ -72,7 +72,7 @@ func isValidField(key, value string) bool {
 		}
 	case "hgt":
 		unitStartIndex := (len(valueChars) - 2)
-		if unitStartIndex-1 >= len(valueChars) || unitStartIndex-1 < 0 {
+		if unitStartIndex-1 < 0 {
 			return false
 		}
 		magnitude, err := strconv.Atoi(string(valueChars[:unitStartIndex]))
