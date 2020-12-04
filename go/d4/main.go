@@ -11,12 +11,10 @@ import (
 func solution1(passports []map[string]string) int {
 	valid := 0
 
-search:
 	for _, passport := range passports {
-		if !hasRequiredFields(passport) {
-			continue search
+		if hasRequiredFields(passport) {
+			valid++
 		}
-		valid++
 	}
 
 	return valid
@@ -25,15 +23,15 @@ search:
 func solution2(passports []map[string]string) int {
 	valid := 0
 
-search:
+outer:
 	for _, passport := range passports {
 		if !hasRequiredFields(passport) {
-			continue search
+			continue outer
 		}
 
 		for k, v := range passport {
 			if !isValidField(k, v) {
-				continue search
+				continue outer
 			}
 		}
 
@@ -44,8 +42,8 @@ search:
 }
 
 func hasRequiredFields(passport map[string]string) bool {
-	for _, rf := range []string{"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"} {
-		if _, ok := passport[rf]; !ok && rf != "cid" {
+	for _, rf := range []string{"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"} {
+		if _, ok := passport[rf]; !ok {
 			return false
 		}
 	}
