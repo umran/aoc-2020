@@ -27,7 +27,7 @@ func countTrees(input []string, slope []int) int {
 	x := 0
 	for y := 0; y < len(input); y += dy {
 		row := []rune(input[y])
-		if row[x] == []rune("#")[0] {
+		if row[x] == '#' {
 			trees++
 		}
 		x = (x + dx) % len(row)

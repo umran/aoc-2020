@@ -94,7 +94,7 @@ func isValidField(key, value string) bool {
 			return false
 		}
 	case "hcl":
-		if valueChars[0] != []rune("#")[0] {
+		if valueChars[0] != '#' {
 			return false
 		}
 

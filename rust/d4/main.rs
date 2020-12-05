@@ -90,7 +90,7 @@ fn is_valid_field<'a>(key: &str, value: &str) -> Result<(), &'a str> {
         },
         "hcl" => {
             let mut value_chars_iter = value_chars.iter();
-            if value_chars_iter.next().ok_or("hcl value too short")? != &"#".chars().next().unwrap() {
+            if value_chars_iter.next().ok_or("hcl value too short")? != &'#' {
                 return Err("invalid hcl prefix")
             }
 

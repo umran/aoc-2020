@@ -26,7 +26,7 @@ fn count_trees(input: &[String], slope: (usize, usize)) -> Result<usize, &str> {
             .chars()
             .collect();
 
-        if *row.get(x).ok_or("invalid x index")? == "#".chars().next().ok_or("error converting string literal to char")? {
+        if *row.get(x).ok_or("invalid x index")? == '#' {
             trees += 1;
         }
 
