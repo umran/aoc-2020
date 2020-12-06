@@ -8,20 +8,20 @@ import (
 )
 
 func solution1(input []int, sum int) int {
-	compliments := make(map[int]int)
+	compliments := make(map[int]struct{})
 	for _, val := range input {
 		compliment := sum - val
 		if _, ok := compliments[compliment]; ok {
 			return val * compliment
 		}
-		compliments[val] = val
+		compliments[val] = struct{}{}
 	}
 	panic("nope!")
 }
 
 func solution2(input []int, sum int) int {
 	for i, vali := range input {
-		compliments := make(map[int]int)
+		compliments := make(map[int]struct{})
 		for j, valj := range input {
 			if i == j {
 				continue
@@ -30,7 +30,7 @@ func solution2(input []int, sum int) int {
 			if _, ok := compliments[compliment]; ok {
 				return vali * valj * compliment
 			}
-			compliments[valj] = valj
+			compliments[valj] = struct{}{}
 		}
 	}
 	panic("nope!")

@@ -9,14 +9,14 @@ import (
 func solution1(groups []string) int {
 	total := 0
 	for _, group := range groups {
-		seenQuestions := make(map[rune]bool)
+		seenQuestions := make(map[rune]struct{})
 		individuals := strings.Split(group, "\n")
 		for _, individual := range individuals {
 			for _, q := range individual {
 				if _, seen := seenQuestions[q]; seen {
 					continue
 				}
-				seenQuestions[q] = true
+				seenQuestions[q] = struct{}{}
 				total++
 			}
 		}
