@@ -33,11 +33,9 @@ func solution2(groups []string) int {
 		for _, individual := range individuals {
 			for _, q := range individual {
 				answerCounts[q]++
-			}
-		}
-		for _, count := range answerCounts {
-			if count == len(individuals) {
-				total++
+				if answerCounts[q] == len(individuals) {
+					total++
+				}
 			}
 		}
 	}
