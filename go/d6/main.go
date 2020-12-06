@@ -28,8 +28,8 @@ func solution1(groups []string) int {
 func solution2(groups []string) int {
 	total := 0
 	for _, group := range groups {
-		individuals := strings.Split(group, "\n")
 		answerCounts := make(map[rune]int)
+		individuals := strings.Split(group, "\n")
 		for _, individual := range individuals {
 			for _, q := range individual {
 				answerCounts[q]++
