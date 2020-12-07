@@ -10,12 +10,12 @@ import (
 
 type bagDirectory map[string]map[string]int
 
-func (directory bagDirectory) hasPathToBag(bagKey, targetKey string) bool {
-	for candidateKey := range directory[bagKey] {
-		if candidateKey == targetKey {
+func (directory bagDirectory) hasPathToTarget(bag, target string) bool {
+	for candidate := range directory[bag] {
+		if candidate == target {
 			return true
 		}
-		if directory.hasPathToBag(candidateKey, targetKey) {
+		if directory.hasPathToTarget(candidate, target) {
 			return true
 		}
 	}
@@ -23,11 +23,11 @@ func (directory bagDirectory) hasPathToBag(bagKey, targetKey string) bool {
 	return false
 }
 
-func (directory bagDirectory) countInnerBags(bagKey string) int {
+func (directory bagDirectory) countInnerBags(bag string) int {
 	total := 0
-	for innerKey, amount := range directory[bagKey] {
+	for innerBag, amount := range directory[bag] {
 		total += amount
-		innerAmount := directory.countInnerBags(innerKey)
+		innerAmount := directory.countInnerBags(innerBag)
 		if innerAmount > 0 {
 			total += amount * innerAmount
 		}
@@ -49,23 +49,23 @@ func parseBags(input []string) bagDirectory {
 				continue
 			}
 			contentParts := strings.Split(content, " ")
-			contentAmount, _ := strconv.Atoi(contentParts[0])
-			contentKey := strings.Join(contentParts[1:], " ")
-			if []rune(contentKey)[len([]rune(contentKey))-1] != 's' {
-				contentKey = fmt.Sprintf("%ss", contentKey)
+			amount, _ := strconv.Atoi(contentParts[0])
+			innerBagKey := strings.Join(contentParts[1:], " ")
+			if []rune(innerBagKey)[len([]rune(innerBagKey))-1] != 's' {
+				innerBagKey = fmt.Sprintf("%ss", innerBagKey)
 			}
-			directory[bagKey][contentKey] = contentAmount
+			directory[bagKey][innerBagKey] = amount
 		}
 	}
 
 	return directory
 }
 
-func solution1(input []string, targetKey string) int {
+func solution1(input []string, target string) int {
 	directory := parseBags(input)
 	total := 0
-	for bagKey := range directory {
-		if directory.hasPathToBag(bagKey, targetKey) {
+	for bag := range directory {
+		if directory.hasPathToTarget(bag, target) {
 			total++
 		}
 	}
@@ -73,9 +73,9 @@ func solution1(input []string, targetKey string) int {
 	return total
 }
 
-func solution2(input []string, bagKey string) int {
+func solution2(input []string, bag string) int {
 	directory := parseBags(input)
-	return directory.countInnerBags(bagKey)
+	return directory.countInnerBags(bag)
 }
 
 func main() {
