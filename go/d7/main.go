@@ -8,11 +8,64 @@ import (
 	"strings"
 )
 
-func solution1(input []string, targetKey string) int {
-	bagMap := createBagMap(input)
+type bagDirectory map[string]map[string]int
+
+func (directory bagDirectory) hasPathToBag(bagKey, targetKey string) bool {
+	for candidateKey := range directory[bagKey] {
+		if candidateKey == targetKey {
+			return true
+		}
+		if directory.hasPathToBag(candidateKey, targetKey) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (directory bagDirectory) countInnerBags(bagKey string) int {
 	total := 0
-	for bagKey := range bagMap {
-		if existsInBag(bagMap, bagKey, targetKey) {
+	for innerKey, amount := range directory[bagKey] {
+		total += amount
+		innerAmount := directory.countInnerBags(innerKey)
+		if innerAmount > 0 {
+			total += amount * innerAmount
+		}
+	}
+	return total
+}
+
+func parseBags(input []string) bagDirectory {
+	directory := make(bagDirectory)
+	for _, ruleDot := range input {
+		rule := strings.TrimSuffix(ruleDot, ".")
+		parts := strings.Split(rule, "contain")
+		bagKey := strings.TrimSuffix(parts[0], " ")
+		spaceContents := strings.Split(parts[1], ",")
+		directory[bagKey] = make(map[string]int)
+		for _, spaceContent := range spaceContents {
+			content := strings.TrimPrefix(spaceContent, " ")
+			if content == "no other bags" {
+				continue
+			}
+			contentParts := strings.Split(content, " ")
+			contentAmount, _ := strconv.Atoi(contentParts[0])
+			contentKey := strings.Join(contentParts[1:], " ")
+			if []rune(contentKey)[len([]rune(contentKey))-1] != 's' {
+				contentKey = fmt.Sprintf("%ss", contentKey)
+			}
+			directory[bagKey][contentKey] = contentAmount
+		}
+	}
+
+	return directory
+}
+
+func solution1(input []string, targetKey string) int {
+	directory := parseBags(input)
+	total := 0
+	for bagKey := range directory {
+		if directory.hasPathToBag(bagKey, targetKey) {
 			total++
 		}
 	}
@@ -21,60 +74,8 @@ func solution1(input []string, targetKey string) int {
 }
 
 func solution2(input []string, bagKey string) int {
-	bagMap := createBagMap(input)
-	return countTotalBags(bagMap, bagKey)
-}
-
-func existsInBag(bagMap map[string]map[string]int, bagKey, targetKey string) bool {
-	for candidateKey := range bagMap[bagKey] {
-		if candidateKey == targetKey {
-			return true
-		}
-		if existsInBag(bagMap, candidateKey, targetKey) {
-			return true
-		}
-	}
-
-	return false
-}
-
-func countTotalBags(bagMap map[string]map[string]int, bagKey string) int {
-	total := 0
-	for innerKey, amount := range bagMap[bagKey] {
-		total += amount
-		innerAmount := countTotalBags(bagMap, innerKey)
-		if innerAmount > 0 {
-			total += amount * innerAmount
-		}
-	}
-	return total
-}
-
-func createBagMap(input []string) map[string]map[string]int {
-	bagMap := make(map[string]map[string]int)
-outer:
-	for _, ruleDot := range input {
-		rule := strings.TrimSuffix(ruleDot, ".")
-		parts := strings.Split(rule, "contain")
-		bagKey := strings.TrimSuffix(parts[0], " ")
-		spaceContents := strings.Split(parts[1], ",")
-		bagMap[bagKey] = make(map[string]int)
-		for _, spaceContent := range spaceContents {
-			content := strings.TrimPrefix(spaceContent, " ")
-			if content == "no other bags" {
-				continue outer
-			}
-			contentParts := strings.Split(content, " ")
-			contentAmount, _ := strconv.Atoi(contentParts[0])
-			contentKey := strings.Join(contentParts[1:], " ")
-			if []rune(contentKey)[len([]rune(contentKey))-1] != 's' {
-				contentKey = fmt.Sprintf("%ss", contentKey)
-			}
-			bagMap[bagKey][contentKey] = contentAmount
-		}
-	}
-
-	return bagMap
+	directory := parseBags(input)
+	return directory.countInnerBags(bagKey)
 }
 
 func main() {
