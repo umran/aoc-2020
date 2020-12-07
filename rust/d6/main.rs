@@ -32,11 +32,11 @@ fn solution_2(groups: &[&str]) -> usize {
                     if count == &individuals.len() {
                         total += 1;
                     }
-                } else {
-                    question_counts.insert(q, 1);
-                    if individuals.len() == 1 {
-                        total += 1;
-                    }
+                    continue;
+                }
+                question_counts.insert(q, 1);
+                if individuals.len() == 1 {
+                    total += 1;
                 }
             }
         }
