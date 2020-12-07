@@ -26,11 +26,7 @@ func (directory bagDirectory) hasPathToTarget(bag, target string) bool {
 func (directory bagDirectory) countInnerBags(bag string) int {
 	total := 0
 	for innerBag, amount := range directory[bag] {
-		total += amount
-		innerAmount := directory.countInnerBags(innerBag)
-		if innerAmount > 0 {
-			total += amount * innerAmount
-		}
+		total += amount + amount*directory.countInnerBags(innerBag)
 	}
 	return total
 }
