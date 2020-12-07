@@ -10,12 +10,12 @@ import (
 
 type bagDirectory map[string]map[string]int
 
-func (directory bagDirectory) hasPathToTarget(bag, target string) bool {
+func (directory bagDirectory) leadsToTarget(bag, target string) bool {
 	for candidate := range directory[bag] {
 		if candidate == target {
 			return true
 		}
-		if directory.hasPathToTarget(candidate, target) {
+		if directory.leadsToTarget(candidate, target) {
 			return true
 		}
 	}
@@ -60,7 +60,7 @@ func parseBags(input []string) bagDirectory {
 func solution1(directory bagDirectory, target string) int {
 	total := 0
 	for bag := range directory {
-		if directory.hasPathToTarget(bag, target) {
+		if directory.leadsToTarget(bag, target) {
 			total++
 		}
 	}
