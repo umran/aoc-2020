@@ -45,6 +45,10 @@ search:
 		}
 	}
 
+	if len(summands) < 2 {
+		panic("couldn't find a solution")
+	}
+
 	sort.Ints(summands)
 	answer = summands[0] + summands[len(summands)-1]
 	return
