@@ -11,19 +11,15 @@ import (
 const preambleSize = 25
 
 func solution1(input []int) (answer int) {
-	for i, val := range input {
-		if i < preambleSize {
-			continue
-		}
-
-		prev25 := input[i-preambleSize : i]
-		if exists, _ := twoSum(prev25, val); !exists {
+	for i, val := range input[preambleSize:] {
+		prev25 := input[i : i+preambleSize]
+		if summands := twoSum(prev25, val); len(summands) != 2 {
 			answer = val
-			break
+			return
 		}
 	}
 
-	return
+	panic("couldn't find a solution")
 }
 
 func solution2(input []int) (answer int) {
@@ -54,12 +50,11 @@ search:
 	return
 }
 
-func twoSum(input []int, sum int) (exists bool, summands []int) {
+func twoSum(input []int, sum int) (summands []int) {
 	compliments := make(map[int]struct{})
 	for _, val := range input {
 		compliment := sum - val
 		if _, ok := compliments[compliment]; ok {
-			exists = true
 			summands = []int{val, compliment}
 			break
 		}
