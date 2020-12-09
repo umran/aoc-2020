@@ -24,7 +24,6 @@ func solution1(input []int) (answer int) {
 
 func solution2(input []int) (answer int) {
 	target := solution1(input)
-	var summands []int
 
 search:
 	for i, vali := range input {
@@ -35,19 +34,15 @@ search:
 				continue search
 			}
 			if total == target {
-				summands = input[i : i+j+1]
-				break search
+				summands := input[i : i+j+1]
+				sort.Ints(summands)
+				answer = summands[0] + summands[len(summands)-1]
+				return
 			}
 		}
 	}
 
-	if len(summands) < 2 {
-		panic("couldn't find a solution")
-	}
-
-	sort.Ints(summands)
-	answer = summands[0] + summands[len(summands)-1]
-	return
+	panic("couldn't find a solution")
 }
 
 func twoSum(input []int, sum int) (summands []int) {
