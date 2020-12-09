@@ -33,16 +33,13 @@ func solution2(input []int) (answer int) {
 search:
 	for i, vali := range input {
 		total := vali
-		for j, valj := range input {
-			if j <= i {
-				continue
-			}
+		for j, valj := range input[i+1:] {
 			total += valj
 			if total > target {
 				continue search
 			}
 			if total == target {
-				summands = input[i : j+1]
+				summands = input[i : i+j+1]
 				break search
 			}
 		}
