@@ -19,7 +19,6 @@ func (s *Seat) id() string {
 }
 
 func solution1(seats map[string]*Seat, adjacentMap, _ map[string][]*Seat) (answer int) {
-	round := 0
 	for {
 		changes := make([]string, 0)
 		for id, adjacents := range adjacentMap {
@@ -42,23 +41,19 @@ func solution1(seats map[string]*Seat, adjacentMap, _ map[string][]*Seat) (answe
 		}
 
 		if len(changes) == 0 {
-			stableCount := 0
 			for _, seat := range seats {
 				if seat.occupied {
-					stableCount++
+					answer++
 				}
 			}
-			answer = stableCount
 			break
 		}
-		round++
 	}
 
 	return
 }
 
 func solution2(seats map[string]*Seat, _, visibleMap map[string][]*Seat) (answer int) {
-	round := 0
 	for {
 		changes := make([]string, 0)
 		for id, visibles := range visibleMap {
@@ -81,17 +76,13 @@ func solution2(seats map[string]*Seat, _, visibleMap map[string][]*Seat) (answer
 		}
 
 		if len(changes) == 0 {
-			stableCount := 0
 			for _, seat := range seats {
 				if seat.occupied {
-					stableCount++
+					answer++
 				}
 			}
-			answer = stableCount
 			break
 		}
-
-		round++
 	}
 
 	return
